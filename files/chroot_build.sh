@@ -17,21 +17,17 @@ echo "ubuntu-${CODENAME}-server" >/etc/hostname
 
 echo >&2 "===]> Info: Configure APT sources..."
 cat <<EOF >/etc/apt/sources.list
-deb http://archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu ${CODENAME} main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu ${CODENAME} main restricted universe multiverse
 
-deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu ${CODENAME}-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu ${CODENAME}-updates main restricted universe multiverse
 
-deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu ${CODENAME}-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu ${CODENAME}-security main restricted universe multiverse
 
 deb http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main restricted universe multiverse
 deb-src http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main restricted universe multiverse
-
-# Required for Subiquity & Server Installer (d-i)
-deb http://archive.ubuntu.com/ubuntu ${CODENAME}-updates/main installer-amd64/
-EOF
 
 apt-get update
 
