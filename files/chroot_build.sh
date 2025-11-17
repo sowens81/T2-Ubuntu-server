@@ -19,10 +19,12 @@ echo >&2 "===]> Info: Configure APT sources..."
 cat <<EOF >/etc/apt/sources.list
 deb http://archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe multiverse
 deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe multiverse
+
 deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
 deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe multiverse
 EOF
 
 apt-get update
