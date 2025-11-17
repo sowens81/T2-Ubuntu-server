@@ -45,7 +45,9 @@ apt-get install -y \
   openssh-server \
   initramfs-tools \
   casper \
-  linux-firmware
+  linux-firmware \
+  kmod
+
 
 
 echo >&2 "===]> Info: Add T2 kernel repository..."
