@@ -1,14 +1,12 @@
 #!/bin/bash
+set -e
 
-set -eu -o pipefail
+DOCKER_IMAGE="t2-iso-builder:latest"
 
-DOCKER_IMAGE_NAME=t2-iso-builder
-DOCKER_IMAGE_TAG=latest
-DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} 
+echo "=== Building ISO Builder Docker image ==="
+docker build -t $DOCKER_IMAGE -f dockerfile .
 
-docker build -t ${DOCKER_IMAGE} -f Dockerfile .
-
-# docker pull ${DOCKER_IMAGE}
+echo "=== Running ISO Builder container ==="
 docker run \
   --rm \
   -it \
@@ -16,5 +14,5 @@ docker run \
   --device /dev/fuse \
   --security-opt apparmor=unconfined \
   -v "$(pwd)":/repo \
-  t2-iso-builder:latest \
-  bash
+  $DOCKER_IMAGE \
+  bash -c "cd /repo && ./build.sh"
