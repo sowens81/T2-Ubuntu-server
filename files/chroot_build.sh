@@ -28,6 +28,7 @@ deb-src http://archive.ubuntu.com/ubuntu ${CODENAME}-security main restricted un
 
 deb http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main restricted universe multiverse
 deb-src http://archive.ubuntu.com/ubuntu ${CODENAME}-backports main restricted universe multiverse
+EOF
 
 apt-get update
 
