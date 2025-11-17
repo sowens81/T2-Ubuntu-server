@@ -72,7 +72,6 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get install -y \
   ubuntu-server-minimal \
   cloud-init \
-  subiquity \
   grub-efi-amd64-signed \
   intel-microcode \
   thermald
