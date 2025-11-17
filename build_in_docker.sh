@@ -13,8 +13,8 @@ docker run \
   --rm \
   -it \
   --cap-add=SYS_ADMIN \
-  --cap-add=MKNOD \
   --device /dev/fuse \
   --security-opt apparmor=unconfined \
   -v "$(pwd)":/repo \
-  ${DOCKER_IMAGE}
+  t2-iso-builder:latest \
+  bash
