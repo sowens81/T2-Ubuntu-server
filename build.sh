@@ -1,12 +1,12 @@
 #!/bin/bash
 set -eu -o pipefail
 
-EXPORT ROOT_PATH="$PWD"
-EXPORT WORKING_PATH="$PWD/work"
-EXPORT CHROOT_PATH="$WORKING_PATH/chroot"
-EXPORT IMAGE_PATH="$WORKING_PATH/image"
-EXPORT KERNEL_VERSION=6.17.8
-EXPORT PKGREL=1
+export ROOT_PATH="$PWD"
+export WORKING_PATH="$PWD/work"
+export CHROOT_PATH="$WORKING_PATH/chroot"
+export IMAGE_PATH="$WORKING_PATH/image"
+export KERNEL_VERSION=6.17.8
+export PKGREL=1
 sed -i "s/KVER/${KERNEL_VERSION}/g" $(pwd)/files/chroot_build.sh
 sed -i "s/PREL/${PKGREL}/g" $(pwd)/files/chroot_build.sh
 
