@@ -8,7 +8,11 @@ docker pull ${DOCKER_IMAGE}
 docker run \
   --privileged \
   --rm \
-  -t \
+  -it \
+  --name t2iso \
   -v "$(pwd)":/repo \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -v /lib/modules:/lib/modules \
+  -v /dev:/dev \
   ${DOCKER_IMAGE} \
-  /bin/bash -c 'cd /repo && ./build.sh'
+  /sbin/init
