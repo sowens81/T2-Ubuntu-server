@@ -5,7 +5,7 @@ ROOT_PATH="$PWD"
 WORKING_PATH="$PWD/work"
 CHROOT_PATH="$WORKING_PATH/chroot"
 IMAGE_PATH="$WORKING_PATH/image"
-KERNEL_VERSION=6.17.8
+KERNEL_VERSION=6.17.8-1-noble
 PKGREL=1
 sed -i "s/KVER/${KERNEL_VERSION}/g" $(pwd)/files/chroot_build.sh
 sed -i "s/PREL/${PKGREL}/g" $(pwd)/files/chroot_build.sh
