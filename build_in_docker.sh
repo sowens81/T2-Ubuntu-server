@@ -10,12 +10,11 @@ docker build -t ${DOCKER_IMAGE} -f Dockerfile .
 
 # docker pull ${DOCKER_IMAGE}
 docker run \
-  --privileged \
   --rm \
   -it \
+  --cap-add=SYS_ADMIN \
+  --cap-add=MKNOD \
+  --device /dev/fuse \
+  --security-opt apparmor=unconfined \
   -v "$(pwd)":/repo \
-  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
-  -v /lib/modules:/lib/modules \
-  -v /dev:/dev \
-  ${DOCKER_IMAGE} \
-  /bin/bash -c 'cd /repo && ./build.sh'
+  ${DOCKER_IMAGE}
