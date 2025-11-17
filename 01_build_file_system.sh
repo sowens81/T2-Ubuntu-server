@@ -1,7 +1,9 @@
 #!/bin/bash
 set -eu -o pipefail
 
-echo >&2 "===]> Info: Checkout bootstrap... "
+
+# === Ubuntu Server 24.04 (T2-Optimized) Filesystem Bootstrap ===
+echo >&2 "===]> Info: Bootstrap minimal Ubuntu Server filesystem... "
 debootstrap \
   --arch=amd64 \
   --variant=minbase \
@@ -9,12 +11,21 @@ debootstrap \
   "${CHROOT_PATH}" \
   http://archive.ubuntu.com/ubuntu/
 
+# Add deb-src to sources.list for build completeness (not desktop-specific)
+echo "deb-src http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse" >> "${CHROOT_PATH}/etc/apt/sources.list"
+
+
+# Prepare chroot for T2-optimized Ubuntu Server build
 echo >&2 "===]> Info: Creating chroot environment... "
 mount --bind /dev "${CHROOT_PATH}/dev"
 mount --bind /run "${CHROOT_PATH}/run"
 
+# Copy only generic setup files (no desktop-specific content)
 cp -r "${ROOT_PATH}/files" "${CHROOT_PATH}/tmp/setup_files"
+
+# Run server-specific chroot build script (installs server, subiquity, T2 drivers, etc)
 chroot "${CHROOT_PATH}" /bin/bash -c "KERNEL_VERSION=${KERNEL_VERSION} /tmp/setup_files/chroot_build.sh"
+
 
 echo >&2 "===]> Info: Cleanup the chroot environment... "
 # In docker there is no run?

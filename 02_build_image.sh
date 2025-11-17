@@ -28,16 +28,12 @@ echo >&2 "===]> Info: Create manifest... "
 # shellcheck disable=SC2016
 chroot "${CHROOT_PATH}" dpkg-query -W --showformat='${Package} ${Version}\n' |
   tee "${IMAGE_PATH}"/casper/filesystem.manifest
-cp -v "${IMAGE_PATH}"/casper/filesystem.manifest "${IMAGE_PATH}"/casper/filesystem.manifest-desktop
 
-REMOVE='ubiquity casper lupin-casper user-setup discover discover-data os-prober laptop-detect'
-for i in $REMOVE; do
-  sed -i "/${i}/d" "${IMAGE_PATH}"/casper/filesystem.manifest-desktop
-done
+# No desktop or ubiquity packages to remove; manifest is server-only.
 
 echo >&2 "===]> Info: Create diskdefines... "
 cat <<EOF >"${IMAGE_PATH}"/README.diskdefines
-#define DISKNAME  Ubuntu MBP 24.04 LTS "Noble Numbat" - amd64
+#define DISKNAME  Ubuntu Server 24.04 T2 Edition
 #define TYPE  binary
 #define TYPEbinary  1
 #define ARCH  amd64
