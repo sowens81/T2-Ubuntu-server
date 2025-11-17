@@ -26,7 +26,6 @@ cp -r "${ROOT_PATH}/files" "${CHROOT_PATH}/tmp/setup_files"
 # Run server-specific chroot build script (installs server, subiquity, T2 drivers, etc)
 chroot "${CHROOT_PATH}" /bin/bash -c "KERNEL_VERSION=${KERNEL_VERSION} /tmp/setup_files/chroot_build.sh"
 
-
 echo >&2 "===]> Info: Cleanup the chroot environment... "
 # In docker there is no run?
 #umount "${CHROOT_PATH}/run"
