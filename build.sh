@@ -1,10 +1,10 @@
 #!/bin/bash
 set -eu -o pipefail
 
-ROOT_PATH=$(pwd)
-WORKING_PATH=/root/work
-CHROOT_PATH="${WORKING_PATH}/chroot"
-IMAGE_PATH="${WORKING_PATH}/image"
+ROOT_PATH="$PWD"
+WORKING_PATH="$PWD/work"
+CHROOT_PATH="$WORKING_PATH/chroot"
+IMAGE_PATH="$WORKING_PATH/image"
 KERNEL_VERSION=6.17.8
 PKGREL=1
 sed -i "s/KVER/${KERNEL_VERSION}/g" $(pwd)/files/chroot_build.sh
