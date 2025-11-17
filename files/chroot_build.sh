@@ -65,16 +65,12 @@ snap install subiquity --classic || true
 
 echo >&2 "===]> Info: Add T2 kernel repository..."
 
-curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" \
-    | gpg --dearmor >/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg
 
-curl -s --compressed -o /etc/apt/sources.list.d/t2.list \
-    "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
+sudo apt update
 
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] \
-https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${CODENAME} ./" \
-    >>/etc/apt/sources.list.d/t2.list
-
+curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
+sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${CODENAME} ./" | sudo tee -a /etc/apt/sources.list.d/t2.list
 apt-get update
 
 

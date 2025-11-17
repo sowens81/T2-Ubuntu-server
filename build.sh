@@ -5,7 +5,7 @@ ROOT_PATH="$PWD"
 WORKING_PATH="$PWD/work"
 CHROOT_PATH="$WORKING_PATH/chroot"
 IMAGE_PATH="$WORKING_PATH/image"
-KERNEL_VERSION=6.17.8-1-noble
+KERNEL_VERSION=6.17.8
 PKGREL=1
 sed -i "s/KVER/${KERNEL_VERSION}/g" $(pwd)/files/chroot_build.sh
 sed -i "s/PREL/${PKGREL}/g" $(pwd)/files/chroot_build.sh
@@ -36,7 +36,7 @@ apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="
   syslinux
 
 echo >&2 "===]> Info: Start loop... "
-for ALTERNATIVE in t2-noble
+for ALTERNATIVE in noble
 do
   echo >&2 "===]> Info: Start building ${ALTERNATIVE}... "
 
