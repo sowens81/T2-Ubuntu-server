@@ -76,7 +76,7 @@ apt-get update
 
 echo >&2 "===]> Info: Install T2 kernel..."
 
-apt-get install -y linux-t2="${KERNEL_VERSION}"
+apt-get install -y linux-t2
 
 
 echo >&2 "===]> Info: Install Apple T2 drivers..."
