@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ENV container docker
+ENV container=docker
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
