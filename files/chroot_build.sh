@@ -76,19 +76,23 @@ apt-get update
 
 echo >&2 "===]> Info: Install T2 kernel..."
 
+
 apt-get install -y linux-t2
+
+echo >&2 "===]> Info: Detect installed T2 kernel version..."
+T2_VERSION=$(dpkg-query -W -f='${Version}' linux-t2)
+echo "Detected T2 kernel: ${T2_VERSION}"
 
 
 echo >&2 "===]> Info: Install Apple T2 drivers..."
 
 apt-get install -y \
-    dkms \
     git \
     make \
     gcc \
     apple-firmware-script \
     apple-t2-audio-config \
-    bcmwl-kernel-source || true
+    t2fanrd || true
 
 
 echo >&2 "===]> Info: Enable Apple T2 modules..."
@@ -113,11 +117,9 @@ plugins=ifupdown,keyfile
 wifi.scan-rand-mac-address=no
 EOF
 
-
 echo >&2 "===]> Info: Update initramfs..."
-
-depmod -a "${KERNEL_VERSION}"
-update-initramfs -u -k "${KERNEL_VERSION}"
+depmod -a "${T2_VERSION}"
+update-initramfs -u -k "${T2_VERSION}"
 
 
 echo >&2 "===]> Info: Configure locale..."
@@ -141,3 +143,4 @@ umount -lf /sys
 umount -lf /proc
 
 export HISTSIZE=0
+
