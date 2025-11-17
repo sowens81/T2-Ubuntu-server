@@ -8,7 +8,7 @@ DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 
 docker build -t ${DOCKER_IMAGE} -f Dockerfile .
 
-docker pull ${DOCKER_IMAGE}
+# docker pull ${DOCKER_IMAGE}
 docker run \
   --privileged \
   --rm \
