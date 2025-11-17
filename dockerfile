@@ -14,7 +14,6 @@ RUN apt-get update && \
         dbus \
         udev \
         kmod \
-        module-init-tools \
         ca-certificates \
         curl \
         wget \
@@ -26,12 +25,14 @@ RUN apt-get update && \
         net-tools \
         dnsutils \
         software-properties-common \
-        bash-completion
+        bash-completion && \
+    apt-get clean
 
 # -------------------------------
 # Install all ISO-building tools
 # -------------------------------
-RUN apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
         debootstrap \
         squashfs-tools \
         xorriso \
@@ -46,7 +47,8 @@ RUN apt-get install -y \
         gdisk \
         binutils \
         build-essential \
-        git
+        git && \
+    apt-get clean
 
 # -------------------------------
 # FIX DNS inside Docker (critical)
