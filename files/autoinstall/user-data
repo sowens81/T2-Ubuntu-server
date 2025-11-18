@@ -6,3 +6,5 @@ autoinstall:
     - keyboard
     - storage
     - identity
+  apt:
+    preserve_sources_list: false

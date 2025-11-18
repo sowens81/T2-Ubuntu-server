@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-echo >&2 "===]> Info: Checkout bootstrap... "
+echo >&2 "===]> Info: Bootstrap filesystem... "
 debootstrap \
   --arch=amd64 \
   --variant=minbase \
@@ -9,29 +9,19 @@ debootstrap \
   "${CHROOT_PATH}" \
   http://archive.ubuntu.com/ubuntu/
 
-echo >&2 "===]> Info: Creating chroot environment... "
+echo >&2 "===]> Info: Preparing chroot... "
 mount --bind /dev "${CHROOT_PATH}/dev"
 mount --bind /run "${CHROOT_PATH}/run"
 
 cp -r "${ROOT_PATH}/files" "${CHROOT_PATH}/tmp/setup_files"
+
+echo >&2 "===]> Info: Running chroot build script... "
 chroot "${CHROOT_PATH}" /bin/bash -c "KERNEL_VERSION=${KERNEL_VERSION} /tmp/setup_files/chroot_build.sh"
 
-echo >&2 "===]> Info: Cleanup the chroot environment... "
-# In docker there is no run?
-#umount "${CHROOT_PATH}/run"
-umount "${CHROOT_PATH}/dev"
+echo >&2 "===]> Info: Cleanup chroot mounts... "
+umount "${CHROOT_PATH}/dev" || true
+# /run is skipped because Docker conflicts sometimes
 
-
-## Copy audio config files
-#echo >&2 "===]> Info: Copy audio config files... "
-#mkdir -p "${CHROOT_PATH}"/usr/share/alsa/cards/
-#cp -fv "${ROOT_PATH}"/files/audio/AppleT2.conf "${CHROOT_PATH}"/usr/share/alsa/cards/AppleT2.conf
-#cp -fv "${ROOT_PATH}"/files/audio/apple-t2.conf "${CHROOT_PATH}"/usr/share/pulseaudio/alsa-mixer/profile-sets/apple-t2.conf
-#cp -fv "${ROOT_PATH}"/files/audio/91-pulseaudio-custom.rules "${CHROOT_PATH}"/usr/lib/udev/rules.d/91-pulseaudio-custom.rules
-#printf "\n load-module module-combine-sink channels=6 channel_map=front-left,front-right,rear-left,rear-right,front-center,lfe" >> /etc/pulse/default.pa
-#printf "\ndefault-sample-channels = 6\nremixing-produce-lfe = yes\nremixing-consume-lfe = yes" >> /etc/pulse/daemon.conf
-
-### Copy grub config without finding macos partition
-echo >&2 "===]> Info: Patch Grub... "
-cp -rfv "${ROOT_PATH}"/files/grub/30_os-prober "${CHROOT_PATH}"/etc/grub.d/30_os-prober
-chmod 755 "${CHROOT_PATH}"/etc/grub.d/30_os-prober
+echo >&2 "===]> Info: Patch GRUB (disable OS detection)... "
+cp -rfv "${ROOT_PATH}/files/grub/30_os-prober" "${CHROOT_PATH}/etc/grub.d/30_os-prober"
+chmod 755 "${CHROOT_PATH}/etc/grub.d/30_os-prober"
