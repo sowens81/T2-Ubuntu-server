@@ -64,3 +64,14 @@ autoinstall:
 
   late-commands:
     - curtin in-target --target=/target systemctl enable ssh
+    - |
+      # Configure console font and size
+      echo 'FONTFACE="TerminusBold"' >> /target/etc/default/console-setup
+      echo 'FONTSIZE="16x32"' >> /target/etc/default/console-setup
+      chroot /target setupcon
+    - |
+      # Add your GitHub SSH keys to the ubuntu user's authorized_keys
+      mkdir -p /target/home/ubuntu/.ssh
+      curl -s https://github.com/<your-github-username>.keys >> /target/home/ubuntu/.ssh/authorized_keys
+      chroot /target chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+      chroot /target chmod 600 /home/ubuntu/.ssh/authorized_keys
