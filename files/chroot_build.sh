@@ -47,13 +47,10 @@ echo >&2 "===]> Info: Install packages needed for Live System... "
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-  ubuntu-standard \
   sudo \
   casper \
-  network-manager \
   netplan.io \
   openssh-server \
-  resolvconf \
   locales \
   initramfs-tools \
   linux-firmware \
@@ -66,16 +63,15 @@ apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="
   wget \
   gnupg \
   ca-certificates \
-  curtin \
-  cloud-init \
-  cloud-utils \
   fdisk \
-  gdisk
-
-#curl -L https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/vKVER-PREL/linux-headers-KVER-${ALTERNATIVE}_KVER-PREL_amd64.deb > /tmp/headers.deb
-#curl -L https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/vKVER-PREL/linux-image-KVER-${ALTERNATIVE}_KVER-PREL_amd64.deb > /tmp/image.deb
-#file /tmp/*
-#apt install /tmp/headers.deb /tmp/image.deb
+  gdisk \
+  subiquity \
+  subiquitycore \
+  ubuntu-advantage-tools \
+  autoinstall \
+  cloud-init \
+  cloud-initramfs-dyn-netconf \
+  curtin
 
 echo >&2 "===]> Info: Install the T2 kernel... "
 
@@ -86,12 +82,10 @@ echo >&2 "===]> Info: Install useful applications and sound configuration... "
 
 apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
   git \
-  curl \
   nano \
   make \
   gcc \
   dkms \
-  gdisk \
   apple-t2-audio-config \
   apple-firmware-script
 
@@ -118,17 +112,6 @@ echo >&2 "===]> Info: Reconfigure environment ... "
 
 locale-gen --purge en_US.UTF-8 en_US
 printf 'LANG="C.UTF-8"\nLANGUAGE="C.UTF-8"\n' >/etc/default/locale
-
-cat <<EOF >/etc/NetworkManager/NetworkManager.conf
-[main]
-plugins=ifupdown,keyfile
-
-[ifupdown]
-managed=false
-
-[device]
-wifi.scan-rand-mac-address=no
-EOF
 
 echo >&2 "===]> Info: Add udev Rule for AMD GPU Power Management... "
 cat <<EOF > /etc/udev/rules.d/30-amdgpu-pm.rules
