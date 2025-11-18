@@ -1,8 +1,13 @@
-# T2-Ubuntu Server 24.04 (T2-Optimized)
 
-This repository builds **Ubuntu Server 24.04 (Noble) ISOs optimized for Apple T2 Macs**. These ISOs allow you to install Ubuntu Server with working keyboard, trackpad, Wi-Fi, and audio on T2 Macs—no external keyboard or mouse required.
+# Ubuntu Server 24.04 T2 Edition
 
-![CI](https://github.com/t2linux/T2-Ubuntu/actions/workflows/CI.yml/badge.svg?branch=LTS)
+This repository builds **Ubuntu Server 24.04 (Noble) ISOs optimized for Apple T2 Macs**. These ISOs allow you to install Ubuntu Server with working keyboard, trackpad, Wi-Fi, and audio on T2 Macs—no external keyboard or mouse required. The ISO filename format is:
+
+```
+ubuntu-24.04-server-t2-<KERNEL_VERSION>.iso
+```
+
+![CI](https://github.com/sowens81/T2-Ubuntu-server/actions/workflows/CI.yml/badge.svg?branch=LTS)
 
 **If this repo helped you, consider supporting the [contributors](https://wiki.t2linux.org/contribute/).**
 
@@ -23,11 +28,12 @@ This repository builds **Ubuntu Server 24.04 (Noble) ISOs optimized for Apple T2
 1. Shrink your Mac partition in macOS.
 2. Download the latest ISO from Releases (filename: `ubuntu-24.04-server-t2-<KERNEL_VERSION>.iso`).
 3. Write the ISO to a USB drive:
-     ```bash
-     diskutil list # Find your USB device number
-     diskutil umountDisk /dev/diskX
-     sudo dd bs=4M if=ubuntu-24.04-server-t2-<KERNEL_VERSION>.iso of=/dev/diskX conv=fdatasync status=progress
-     ```
+
+    ```bash
+    diskutil list # Find your USB device number
+    diskutil umountDisk /dev/diskX
+    sudo dd bs=4M if=ubuntu-24.04-server-t2-<KERNEL_VERSION>.iso of=/dev/diskX conv=fdatasync status=progress
+    ```
 4. Boot into Recovery mode and allow booting of external/unknown OS.
 5. Reboot and hold the Option key until the boot menu appears.
 6. Select "EFI Boot" (usually the third option).
@@ -40,7 +46,7 @@ This repository builds **Ubuntu Server 24.04 (Noble) ISOs optimized for Apple T2
 
 - See <https://wiki.t2linux.org/guides/wifi/> for Wi-Fi setup.
 - To remap keyboard keys, create `/etc/modprobe.d/hid_apple.conf` and update GRUB. See <https://github.com/free5lot/hid-apple-patched>.
-    ```
+    ```conf
     # /etc/modprobe.d/hid_apple.conf
     options hid_apple swap_fn_leftctrl=1
     options hid_apple swap_opt_cmd=1
@@ -50,14 +56,17 @@ This repository builds **Ubuntu Server 24.04 (Noble) ISOs optimized for Apple T2
 
 Follow [this guide](https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel?tab=readme-ov-file#installation) to update to newer T2 kernels.
 
-## Known Issues
+
+## Known Issues & Troubleshooting
 
 - Checksum may fail for `md5sum.txt` and `/boot/grub/bios.img` (harmless).
 - TouchID and Thunderbolt are not supported.
 - Microphone is recognized but may have low volume.
 - `ctrl+x` does not work in GRUB; use `F10` to boot with custom kernel parameters.
+- If keyboard/trackpad do not work in the installer, ensure you are using the correct T2 ISO and booted via "EFI Boot".
 
-## Credits
+
+## Credits & Thanks
 
 - @mikeeq - mbp-fedora
 - @marcosfad - mbp-ubuntu
@@ -68,10 +77,10 @@ Follow [this guide](https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel?tab=r
 - @ppaulweber - keyboard/Macbook Air patches
 - @kevineinarsson - audio settings
 
+
 ## Resources
 
 - Discord: <https://discord.gg/Uw56rqW>
 - T2Linux Wiki: <https://wiki.t2linux.org/>
 - Kernel: <https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel>
 - Patches: <https://github.com/t2linux/linux-t2-patches>
-Follow [this guide](https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel?tab=readme-ov-file#installation).
