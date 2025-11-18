@@ -1,0 +1,66 @@
+#cloud-config
+autoinstall:
+  version: 1
+
+  locale: en_GB.UTF-8
+  keyboard:
+    layout: gb
+    variant: mac
+
+  identity:
+    hostname: server01
+    username: ubuntu
+    password: "$6$rounds=4096$JxZPp5b7qGmFaHjn$i2w6M6eY15Gf8kR2DmwiZoLJwT6sriCYeHeuVKWrcqjb2s9XJgud6oG6wOt8sOTQkPcg3Fh0JWWo.MarFJPEA/"  
+    # password = "ubuntu" (you can replace this)
+
+  ssh:
+    install-server: true
+    allow-pw: true
+
+  network:
+    network:
+      version: 2
+      ethernets:
+        eth0:
+          dhcp4: true
+
+  storage:
+    layout:
+      name: direct
+    config:
+      - { ptable: gpt, path: /dev/nvme0n1, wipe: superblock-recursive, preserve: false, type: disk, id: disk0 }
+
+      # EFI
+      - { device: disk0, size: 1G, flag: boot, type: partition, id: part-efi }
+      - { fstype: fat32, volume: part-efi, mount: { path: /boot/efi }, id: fs-efi }
+
+      # /boot
+      - { device: disk0, size: 1G, type: partition, id: part-boot }
+      - { fstype: ext4, volume: part-boot, mount: { path: /boot }, id: fs-boot }
+
+      # /
+      - { device: disk0, size: 80G, type: partition, id: part-root }
+      - { fstype: ext4, volume: part-root, mount: { path: / }, id: fs-root }
+
+      # /home
+      - { device: disk0, size: 20G, type: partition, id: part-home }
+      - { fstype: ext4, volume: part-home, mount: { path: /home }, id: fs-home }
+
+      # swap
+      - { device: disk0, size: 8G, type: partition, id: part-swap }
+      - { fstype: swap, volume: part-swap, id: fs-swap }
+
+      # /data (rest of disk)
+      - { device: disk0, type: partition, id: part-data, size: -1 }
+      - { fstype: xfs, volume: part-data, mount: { path: /data }, id: fs-data }
+
+  user-data:
+    disable_root: false
+    timezone: Europe/London
+    package_update: true
+    package_upgrade: true
+    packages:
+      - openssh-server
+
+  late-commands:
+    - curtin in-target --target=/target systemctl enable ssh

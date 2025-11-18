@@ -16,6 +16,10 @@ echo >&2 "===]> Info: Grub configuration... "
 # we add an empty file to use it with the search command in grub later on.
 touch "${IMAGE_PATH}"/ubuntu
 cp -r "${ROOT_PATH}"/files/preseed "${IMAGE_PATH}"/preseed
+mkdir -p "${IMAGE_PATH}/autoinstall"
+mkdir -p "${IMAGE_PATH}/autoinstall"
+cp "${ROOT_PATH}/files/autoinstall/user-data" "${IMAGE_PATH}/autoinstall/user-data"
+cp "${ROOT_PATH}/files/autoinstall/meta-data" "${IMAGE_PATH}/autoinstall/meta-data"
 cp "${ROOT_PATH}/files/grub/grub.cfg" "${IMAGE_PATH}"/isolinux/grub.cfg
 
 

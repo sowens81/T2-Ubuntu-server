@@ -65,7 +65,12 @@ apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="
   curl \
   wget \
   gnupg \
-  ca-certificates
+  ca-certificates \
+  curtin \
+  cloud-init \
+  cloud-utils \
+  fdisk \
+  gdisk
 
 #curl -L https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/vKVER-PREL/linux-headers-KVER-${ALTERNATIVE}_KVER-PREL_amd64.deb > /tmp/headers.deb
 #curl -L https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/vKVER-PREL/linux-image-KVER-${ALTERNATIVE}_KVER-PREL_amd64.deb > /tmp/image.deb
@@ -76,17 +81,6 @@ echo >&2 "===]> Info: Install the T2 kernel... "
 
 apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
   linux-t2=KVER-PREL-${CODENAME}
-
-echo >&2 "===]> Info: Install installer (Subiquity)..."
-
-apt-get install -y snapd
-
-systemctl disable snapd.service 2>/dev/null || true
-systemctl disable snapd.socket 2>/dev/null || true
-systemctl disable snapd.seeded.service 2>/dev/null || true
-
-snap install core24 --edge --devmode || true
-snap install subiquity --classic --devmode || true
 
 echo >&2 "===]> Info: Install useful applications and sound configuration... "
 
